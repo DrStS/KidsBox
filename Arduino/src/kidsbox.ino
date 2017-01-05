@@ -9,7 +9,6 @@
 
 unsigned char pauseByte = 'r';
 
-
 void setup()
 {
 Serial.begin(9600);//Connect to RasPi
@@ -35,32 +34,38 @@ digitalWrite(PIN_LED_GREEN, HIGH);
 
 void loop()
 {
-  if(digitalRead(PIN_BUTTON_BACKWARD)==HIGH){
-    digitalWrite(PIN_LED_RED, HIGH);
-  }
 
   if(digitalRead(PIN_BUTTON_VOL_PLUS)==HIGH){
+	Serial.write('u');
+    digitalWrite(PIN_LED_RED, HIGH);
+  }
+  
+  if(digitalRead(PIN_BUTTON_VOL_MINUS)==HIGH){
+	Serial.write('d');
     digitalWrite(PIN_LED_RED, HIGH);
   }
 
   if(digitalRead(PIN_BUTTON_PAUSE)==HIGH){
-   if(pauseByte == 'r'){
+   if(pauseByte =='r'){
      pauseByte = 'p';
-   }else if(pauseByte == 'p'){
+   }else if(pauseByte =='p'){
      pauseByte = 'r';
    }
     Serial.write(pauseByte);
-    digitalWrite(PIN_LED_RED, HIGH);
-	
+    digitalWrite(PIN_LED_RED, HIGH);	
   }
-
+  
   if(digitalRead(PIN_BUTTON_FORWARD)==HIGH){
+	Serial.write('f');
+    digitalWrite(PIN_LED_RED, HIGH);
+  }
+  
+  if(digitalRead(PIN_BUTTON_BACKWARD)==HIGH){
+    Serial.write('b');
     digitalWrite(PIN_LED_RED, HIGH);
   }
 
-  if(digitalRead(PIN_BUTTON_VOL_MINUS)==HIGH){
-    digitalWrite(PIN_LED_RED, HIGH);
-  }
+
 
 // Clean state
 digitalWrite(PIN_LED_RED, LOW);
