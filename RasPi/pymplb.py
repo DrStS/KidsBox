@@ -59,7 +59,7 @@ def make_mplayer_class(mplayer_bin='mplayer', method_prefix='', property_prefix=
 		def __init__(self, env=None, mplayer_args_d=None, **mplayer_args):
 			if mplayer_args_d: # Make pylint happy by not passing {} as an argument
 				mplayer_args.update(mplayer_args_d)
-			cmd_args = [mplayer_bin, '-slave', '-quiet', '-idle', '-msglevel', 'all=-1:global=4']
+			cmd_args = [mplayer_bin, '-slave', '-quiet', '-idle', '-msglevel', 'all=-1:global=4', '-shuffle']
 			for (name, value) in mplayer_args.items():
 				cmd_args.append('-'+name)
 				if value != None and value != True:

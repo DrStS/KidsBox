@@ -3,9 +3,17 @@ import pymplb
 import sys
 import serial
 import alsaaudio
+import time
+import os
+from random import randint
+#Get my files
+myMusicFolder= '/home/pi/music/'
+myMusicFiles = filter(lambda x: x.endswith('.mp3'), os.listdir(myMusicFolder))
+myNumMusicFiles = len(myMusicFiles)-1
 
 kidsBoxPlayer = pymplb.MPlayer()
-kidsBoxPlayer.loadlist('/home/pi/music/playlist')
+kidsBoxPlayer.loadfile(myMusicFolder+myMusicFiles[randint(0,myNumMusicFiles)])
+#kidsBoxPlayer.loadlist('http://www.rockantenne.de/webradio/rockantenne.m3u')
 ser = serial.Serial('/dev/ttyACM0', 9600)
 ser.write('s')
 kidsBoxMixer = alsaaudio.Mixer()
@@ -37,5 +45,11 @@ try:
                                 kidsBoxMixer.setvolume(kidsBoxVolume)
 			else:
 				kidsBoxVolume = 0
+                if pauseByte is 'f':
+                        print("Forward")
+                        kidsBoxPlayer.loadfile(myMusicFolder+myMusicFiles[randint(0,myNumMusicFiles)])
+                if pauseByte is 'b':
+                        print("Backward")
+                        kidsBoxPlayer.loadfile(myMusicFolder+myMusicFiles[randint(0,myNumMusicFiles)])
 except KeyboardInterrupt:
 	ser.close()

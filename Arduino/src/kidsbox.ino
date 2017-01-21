@@ -68,6 +68,6 @@ void loop()
 
 
 // Clean state
+delay(100);
 digitalWrite(PIN_LED_RED, LOW);
-delay(300);
 }
