@@ -18,6 +18,7 @@ ser = serial.Serial('/dev/ttyACM0', 9600)
 ser.write('s')
 kidsBoxMixer = alsaaudio.Mixer()
 kidsBoxVolume = 48
+kidsBoxVolumeMax = 62
 kidsBoxMixer.setvolume(kidsBoxVolume)
 print("== KidsBox ready! ==")
 
@@ -33,11 +34,11 @@ try:
                 if pauseByte is 'u':
                         print("Increase volume")
                         kidsBoxVolume = int(kidsBoxVolume + 2)
-                        if kidsBoxVolume < 66:
+                        if kidsBoxVolume < kidsBoxVolumeMax:
 				print(kidsBoxVolume)
 				kidsBoxMixer.setvolume(kidsBoxVolume)
 			else:
-				kidsBoxVolume = 66 
+				kidsBoxVolume = kidsBoxVolumeMax
                 if pauseByte is 'd':
                         print("Decrease volume")    
                         kidsBoxVolume = int(kidsBoxVolume - 2)
@@ -47,7 +48,9 @@ try:
 				kidsBoxVolume = 0
                 if pauseByte is 'f':
                         print("Forward")
-                        kidsBoxPlayer.loadfile(myMusicFolder+myMusicFiles[randint(0,myNumMusicFiles)])
+                        fileNameTmp=myMusicFolder+myMusicFiles[randint(0,myNumMusicFiles)]
+                        print(fileNameTmp)
+                        kidsBoxPlayer.loadfile(fileNameTmp)
                 if pauseByte is 'b':
                         print("Backward")
                         kidsBoxPlayer.loadfile(myMusicFolder+myMusicFiles[randint(0,myNumMusicFiles)])
