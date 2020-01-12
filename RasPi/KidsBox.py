@@ -54,5 +54,15 @@ try:
                 if pauseByte is 'b':
                         print("Backward")
                         kidsBoxPlayer.loadfile(myMusicFolder+myMusicFiles[randint(0,myNumMusicFiles)])
+                if pauseByte is 'q':
+                        print("RFID read")
+			RFIDvalue=ser.read(6)
+			print(RFIDvalue)
+			if str(RFIDvalue) == '193D74':
+				print("RFID CARD 1")
+				kidsBoxPlayer.loadlist('http://www.rockantenne.de/webradio/rockantenne.m3u')
+                        if str(RFIDvalue) == '1CC9DE':
+                                print("RFID CARD 2")
+                                kidsBoxPlayer.loadlist('http://www.rockantenne.de/webradio/rockantenne.m3u')
 except KeyboardInterrupt:
 	ser.close()

@@ -7,7 +7,11 @@
 #define PIN_BUTTON_FORWARD 6
 #define PIN_BUTTON_BACKWARD 4
 
+
 unsigned char pauseByte = 'r';
+unsigned char RFIDbuffer[14];       // buffer array for data receive over serial port
+int RFIDcount = 0;                  // counter for buffer array
+unsigned char RFID[6];       // buffer array for data receive over serial port
 
 void setup()
 {
@@ -29,7 +33,7 @@ while (Serial.available() == 0){
 if (Serial.read()=='s'){
 digitalWrite(PIN_LED_GREEN, HIGH);
 }
- 
+
 }
 
 void loop()
@@ -65,9 +69,33 @@ void loop()
     digitalWrite(PIN_LED_RED, HIGH);
   }
 
-
-
+	while(Serial1.available())    
+	{
+		RFIDbuffer[RFIDcount++] = Serial1.read();
+		if(RFIDcount == 14)break;
+	}
+	RFID[0]=RFIDbuffer[5];
+	RFID[1]=RFIDbuffer[6];
+	RFID[2]=RFIDbuffer[7];
+	RFID[3]=RFIDbuffer[8];
+	RFID[4]=RFIDbuffer[9];
+	RFID[5]=RFIDbuffer[10];
+	if(RFIDcount>0){
+		Serial.write('q');
+		Serial.write(RFID, 6); 
+	}	
+  
 // Clean state
+clearBufferArray(); 
+RFIDcount = 0; 
 delay(100);
 digitalWrite(PIN_LED_RED, LOW);
+}
+void clearBufferArray()                 // function to clear buffer array
+{
+    // clear all index of array with command NULL
+    for (int i=0; i<RFIDcount; i++)
+    {
+        RFIDbuffer[i]=NULL;
+    }                  
 }
