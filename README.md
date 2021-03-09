@@ -1,8 +1,8 @@
 # KidsBox
 KidsBox
-#---------------------------------------------------------------------#
+
 ![KidsBox](http://sicklinger.com/images/KidsBox.png)
-#---------------------------------------------------------------------#
+
 # Prep list on RasPi
 Install pyserial
 sudo apt-get install python-serial
